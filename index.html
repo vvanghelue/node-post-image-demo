@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TEST</title>
+</head>
+<body>
+
+  <input type="file" accept="file_extension|audio/*|video/*|image/*|media_type"/>
+
+  <script type="text/javascript" src="/node_modules/whatwg-fetch/fetch.js"></script>
+  <div></div>
+  <button class="go">GO</button>
+
+  <div>Result:</div>
+  <img class="result" src=""/>
+
+  <script type="text/javascript">
+  document.querySelector('.go').addEventListener('click', function () {
+    var input = document.querySelector('input[type="file"]')
+
+
+
+    var data = new FormData()
+    data.append('file', input.files[0])
+    data.append('user', 'hubot')
+
+    /*
+    fetch('/upload_image', {
+      method: 'POST',
+      body: data
+    }).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      document.querySelector('.result').src = "data:image/jpeg;base64, " + data.medium;
+    })
+    */
+
+    var request = new XMLHttpRequest();
+    request.open("POST", "/upload_image");
+    request.send(data);
+    request.onreadystatechange = function(event) {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+              var data = JSON.parse(this.responseText);
+              document.querySelector('.result').src = "data:image/jpeg;base64, " + data.formats.medium;
+            }
+        }
+    };
+    request.onprogress = function (state) {
+      console.log('1')
+      if (!state.loaded) {
+        return;
+      }
+      console.log(Math.round(100 * state.loaded/state.total))
+    };
+    request.upload.onprogress = function (state) {
+      console.log('2')
+      if (!state.loaded) {
+        return;
+      }
+      console.log(Math.round(100 * state.loaded/state.total))
+    };
+
+    request.addEventListener("progress", function (state) {
+      console.log('3')
+      if (!state.loaded) {
+        return;
+      }
+      console.log(Math.round(100 * state.loaded/state.total))
+    }, false);  
+
+    request.upload.addEventListener("progress", function (state) {
+      console.log('4')
+      if (!state.loaded) {
+        return;
+      }
+      console.log(Math.round(100 * state.loaded/state.total))
+    }, false);  
+
+
+
+
+  })
+  </script>
+</body>
+</html>
