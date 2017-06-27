@@ -47,4 +47,4 @@ app.post('/upload_image', upload, function (req, res, next) {
 
 })
 
-app.listen(9999);
+app.listen(process.env.PORT || 9999);
