@@ -1,5 +1,5 @@
 {
-  "name": "node_post_image",
+  "name": "node-post-image",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,6 +14,7 @@
     "express": "^4.15.3",
     "multer": "^1.3.0",
     "progress-stream": "^2.0.0",
+    "resumablejs": "^1.0.2",
     "serve-static": "^1.12.3",
     "sharp": "^0.18.1",
     "whatwg-fetch": "^2.0.3"

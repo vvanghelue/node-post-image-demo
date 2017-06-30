@@ -36,7 +36,7 @@
     */
 
     var request = new XMLHttpRequest();
-    request.open("POST", "/upload_image");
+    request.open("POST", "/upload_image", true);
     request.send(data);
     request.onreadystatechange = function(event) {
         if (this.readyState === XMLHttpRequest.DONE) {
@@ -81,6 +81,26 @@
 
 
   })
+  </script>
+
+  <div style="height: 20px;"></div>
+  <button class="upload-resumable">choose</button>
+  <button class="upload-resumable-go">go</button>
+  <script type="text/javascript" src="/node_modules/resumablejs/resumable.js"></script>
+  <script type="text/javascript">
+  setTimeout(function () {
+    var r = new Resumable({
+      target:'upload_image'
+    });
+    r.assignBrowse(document.querySelector('.upload-resumable'));
+    r.on('fileSuccess', function(file, message){
+      console.log(arguments)
+    });
+
+    document.querySelector('.upload-resumable-go').addEventListener('click', function (argument) {
+      r.upload();
+    });
+  }, 120)
   </script>
 </body>
 </html>
